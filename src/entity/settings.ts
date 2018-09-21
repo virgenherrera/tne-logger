@@ -1,5 +1,5 @@
-import { ISettings } from "../interfaces";
-import { LogFileConfig } from "./logFileConfig";
+import { ISettings } from '../interfaces';
+import { LogFileConfig } from './logFileConfig';
 
 export class Settings implements ISettings {
 	fileConfig: LogFileConfig = null;
@@ -7,6 +7,6 @@ export class Settings implements ISettings {
 
 	constructor(params: ISettings = null) {
 		this.fileConfig = (params && params.fileConfig) ? new LogFileConfig(params.fileConfig) : null;
-		this.customTransports = params.customTransports || [];
+		this.customTransports = (params && params.customTransports) ? params.customTransports : [];
 	}
 }

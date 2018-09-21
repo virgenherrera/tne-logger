@@ -1,8 +1,8 @@
-import { join } from "path";
+import { join } from 'path';
 import { mkdir as shelljsMkdir } from 'shelljs';
-import { ILogFileConfig } from "../interfaces";
-import { pathExists } from "../lib/fileHandle";
-import { DEFAULT_FILENAME } from "../constant/defaults";
+import { pathExists } from '../lib/fileHandle';
+import { DEFAULT_FILENAME } from '../constant/defaults';
+import { ILogFileConfig } from '../interfaces';
 
 export class LogFileConfig implements ILogFileConfig {
 	logsPath: string;
@@ -17,6 +17,6 @@ export class LogFileConfig implements ILogFileConfig {
 
 		this.logsPath = args.logsPath;
 		this.baseFileName = (args.baseFileName) ? `${args.baseFileName}.log` : DEFAULT_FILENAME;
-		this.logFilePath = join(this.logFilePath, this.baseFileName);
+		this.logFilePath = join(this.logsPath, this.baseFileName);
 	}
 }
