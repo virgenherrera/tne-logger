@@ -4,6 +4,7 @@ import { fileConfig } from '../fixtures/fileConfig';
 import { fileExists, pathExists } from '../../src/lib/fileHandle';
 import { readFileSync } from 'fs';
 import * as rimraf from 'rimraf';
+import { customTransportWithFileConf, fileConfig as transFileConf } from '../fixtures/customTransport';
 
 should();
 describe('@tne/logger  basic and a file log test', () => {
@@ -68,6 +69,25 @@ describe('@tne/logger  basic and a file log test', () => {
 
 			done();
 		}, 7e3);
+	});
+
+	it('should create a logger with a custom Transport with fileWriter', () => {
+		const logger = new TneLogger(customTransportWithFileConf);
+
+		expect(logger).to.be.an('object');
+		expect(logger).to.have.property('settings');
+		expect(logger).to.have.property('logger');
+		expect(logger).to.have.property('error');
+		expect(logger).to.have.property('warn');
+		expect(logger).to.have.property('info');
+
+		expect(logger.settings).to.be.an('object').that.has.keys('fileConfig', 'customTransports');
+		expect(logger.settings.fileConfig).to.have.property('logsPath');
+		expect(logger.settings.fileConfig).to.have.property('logFilePath');
+		expect(logger.settings.fileConfig).to.have.property('baseFileName');
+
+		expect(logger.settings.fileConfig.logsPath).to.be.equal(transFileConf.logsPath);
+		expect(logger.settings.customTransports).to.be.eql(customTransportWithFileConf.customTransports);
 	});
 });
 

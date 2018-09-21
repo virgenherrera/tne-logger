@@ -1,3 +1,4 @@
+import * as Transport from 'winston-transport';
 import { createWriteStream } from 'fs';
 import { createLogger, format, transports, config, Logger } from 'winston';
 import { ISettings } from './interfaces';
@@ -41,19 +42,20 @@ export class TneLogger {
 	}
 
 	private get transports() {
-		const transports = [];
+		const data = [];
+		const { customTransports } = this._settings;
 
 		if (this._settings.fileConfig) {
-			transports.push(this._streamTransport);
+			data.push(this._streamTransport);
 		}
 
-		transports.push(this._consoleTransport);
+		data.push(this._consoleTransport);
 
 		if (this._settings.customTransports.length > 0) {
-			transports.concat(this._settings.customTransports);
+			data.concat(customTransports.filter(trs => (trs && trs instanceof Transport)));
 		}
 
-		return transports;
+		return data;
 	}
 	private _settings: Settings;
 	private _logger: Logger;

@@ -6,7 +6,7 @@ import { TneLogger } from '../../src/tneLogger';
 should();
 describe('@tne/logger index export', () => {
 	it('should expose it\'s methods ', () => {
-		expect(Src).to.have.keys('TneLogger', 'Logger');
+		expect(Src).to.have.keys('TneLogger', 'Logger', 'Transport');
 	});
 
 	it('should TneLogger be Clone of src/TneLogger', () => {
