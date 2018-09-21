@@ -1,0 +1,80 @@
+{
+  "name": "@tne/logger",
+  "version": "1.0.0",
+  "description": "TNE - the logger lib",
+  "main": "dist/index.js",
+  "engines": {
+    "node": ">=8.9.0",
+    "npm": ">=5.5.1"
+  },
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/virgenherrera/tne-logger"
+  },
+  "keywords": [
+    "typescript",
+    "node",
+    "winston"
+  ],
+  "author": "Hugo Virgen",
+  "contributors": [
+    {
+      "name": "Hugo Virgen",
+      "email": "virgenherrera@gmail.com",
+      "url": "https://github.com/virgenherrera/"
+    }
+  ],
+  "homepage": "https://github.com/virgenherrera/tne-logger#readme",
+  "bugs": {
+    "url": "https://github.com/virgenherrera/tne-logger/issues"
+  },
+  "license": "MIT",
+  "scripts": {
+    "test": "nyc mocha",
+    "prepublish": "npm run build",
+    "install": "./node_modules/.bin/tsc",
+    "build": "npm run clean:dist && npm run tsc",
+    "clean:dist": "rimraf dist",
+    "tslint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json",
+    "tsc": "./node_modules/.bin/tsc",
+    "tsc:watch": "./node_modules/.bin/tsc -w --sourceMap"
+  },
+  "dependencies": {
+    "rimraf": "^2.6.2",
+    "shelljs": "^0.8.2",
+    "winston": "^3.1.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.5",
+    "@types/mocha": "^5.2.5",
+    "@types/node": "^10.5.8",
+    "@types/rimraf": "^2.0.2",
+    "@types/shelljs": "^0.8.0",
+    "@types/winston": "^2.4.4",
+    "chai": "^4.1.2",
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
+    "source-map-support": "^0.5.9",
+    "ts-node": "^7.0.0",
+    "tslint": "^5.11.0"
+  },
+  "nyc": {
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "exclude": [
+      "**/*.d.ts",
+      "test/**",
+      "coverage/**",
+      "dist/**"
+    ],
+    "reporter": [
+      "html",
+      "text",
+      "text-summary"
+    ],
+    "all": true
+  }
+}
