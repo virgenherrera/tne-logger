@@ -34,8 +34,11 @@
     "test": "nyc mocha",
     "prepublish": "npm run build",
     "install": "./node_modules/.bin/tsc",
-    "build": "npm run clean:dist && npm run tsc",
+    "build": "npm run cleanup && npm run test && npm run tsc",
+    "cleanup": "npm run clean:dist && npm run clean:nyc_output && npm run clean:coverage",
     "clean:dist": "rimraf dist",
+    "clean:nyc_output": "rimraf .nyc_output",
+    "clean:coverage": "rimraf coverage",
     "tslint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json",
     "tsc": "./node_modules/.bin/tsc",
     "tsc:watch": "./node_modules/.bin/tsc -w --sourceMap"
@@ -57,7 +60,8 @@
     "nyc": "^13.0.1",
     "source-map-support": "^0.5.9",
     "ts-node": "^7.0.0",
-    "tslint": "^5.11.0"
+    "tslint": "^5.11.0",
+    "typescript": "^3.0.3"
   },
   "nyc": {
     "extension": [
@@ -72,7 +76,6 @@
     ],
     "reporter": [
       "html",
-      "text",
       "text-summary"
     ],
     "all": true

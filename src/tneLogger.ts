@@ -1,22 +1,24 @@
+import * as Transport from 'winston-transport';
 import { createWriteStream } from 'fs';
-import { createLogger, format, transports, config } from 'winston';
+import { createLogger, format, transports, config, Logger } from 'winston';
 import { ISettings } from './interfaces';
 import { Settings } from './entity/settings';
 
 export class TneLogger {
-	private readonly logExpression = level => arg => (arg !== Object(arg)) ? this.logger[level](arg) : this.logger[level](JSON.stringify(arg));
-	private _settings: Settings;
-	private _logger = createLogger({
-		transports: this.transports,
-		levels: config.npm.levels,
-	});
-
 	constructor(args: ISettings = null) {
 		this._settings = new Settings(args);
+		this._logger = createLogger({
+			transports: this.transports,
+			levels: config.npm.levels,
+		});
 	}
 
-	get logger() {
+	public get logger() {
 		return this._logger;
+	}
+
+	public get settings(): Settings {
+		return this._settings;
 	}
 
 	private get _consoleTransport() {
@@ -40,30 +42,34 @@ export class TneLogger {
 	}
 
 	private get transports() {
-		const transports = [];
+		const data = [];
+		const { customTransports } = this._settings;
 
 		if (this._settings.fileConfig) {
-			transports.push(this._streamTransport);
+			data.push(this._streamTransport);
 		}
 
-		transports.push(this._consoleTransport);
+		data.push(this._consoleTransport);
 
 		if (this._settings.customTransports.length > 0) {
-			transports.concat(this._settings.customTransports);
+			data.concat(customTransports.filter(trs => (trs && trs instanceof Transport)));
 		}
 
-		return transports;
+		return data;
 	}
+	private _settings: Settings;
+	private _logger: Logger;
+	private readonly logExpression = level => arg => (arg !== Object(arg)) ? this.logger[level](arg) : this.logger[level](JSON.stringify(arg));
 
 	public error(...args: any[]) {
-		return args.map(this.logExpression('error'));
+		args.forEach(this.logExpression('error'));
 	}
 
 	public warn(...args: any[]) {
-		return args.map(this.logExpression('warn'));
+		args.forEach(this.logExpression('warn'));
 	}
 
 	public info(...args: any[]) {
-		return args.map(this.logExpression('info'));
+		args.forEach(this.logExpression('info'));
 	}
 }
