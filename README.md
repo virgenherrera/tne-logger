@@ -1,13 +1,17 @@
 # @tne/logger
-Common logger for Node.js projects
+A basic logger for __Node.js__ applications, completely written with __typescript__, is not only the basic logger for the entire `@tne` platform, since being completely decoupled from tne is free to use for any other application __Node.js__
 
-developed on Node Version: v10.10.0
-
-<a name="constructor_menu"></a>
+<a name="main_menu"></a>
+## Menu
+- [Installation](#installation)
 - [Constructor Args](#constructor_args)
 - [Constructor/simple](#constructor_simple)
 - [Constructor/file](#constructor_file)
 - [Constructor/transports](#constructor_transports)
+
+<a name="installation"></a>
+## Installation
+`npm i -S @tne/logger`
 
 <a name="constructor_args"></a>
 ## Constructor Arguments
@@ -22,7 +26,7 @@ developed on Node Version: v10.10.0
 |logsPath|string|true|The path (existing or to be created) where the log file will be created/updated.|
 |baseFileName|string|false|The name of the log file itself.|
 
-[Back to Menu](#constructor_menu)
+[Back to Menu](#main_menu)
 
 <a name="constructor_simple"></a>
 ## @tne/logger basic implementation
@@ -55,7 +59,7 @@ warn:   warn message 1537574380254
 error:  error message 1537574380254
 ```
 
-[Back to Menu](#constructor_menu)
+[Back to Menu](#main_menu)
 
 
 <a name="constructor_file"></a>
@@ -91,7 +95,7 @@ error:  error message 1537574380254
 2018-09-24T15:28:28.961Z error: error message 1537574380254
 ```
 
-[Back to Menu](#constructor_menu)
+[Back to Menu](#main_menu)
 
 <a name="constructor_transports"></a>
 ## @tne/logger custom Transport(s) implementation
@@ -119,4 +123,4 @@ warn:   warn message 1537574380254
 error:  error message 1537574380254
 ```
 
-[Back to Menu](#constructor_menu)
+[Back to Menu](#main_menu)
