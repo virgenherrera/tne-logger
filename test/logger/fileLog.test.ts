@@ -1,6 +1,6 @@
 import { expect, should } from 'chai';
 import { TneLogger } from '../../src/tneLogger';
-import { fileConfig } from '../fixtures/fileConfig';
+import { fileConfig, customFileNameConfig } from '../fixtures/fileConfig';
 import { fileExists, pathExists } from '../../src/lib/fileHandle';
 import { readFileSync } from 'fs';
 import * as rimraf from 'rimraf';
@@ -29,6 +29,19 @@ describe('@tne/logger  basic and a file log test', () => {
 
 	it('should create a logFile', () => {
 		const logger = new TneLogger(fileConfig);
+
+		expect(logger).to.be.an('object');
+
+		expect(logger).to.have.property('settings');
+		expect(logger.settings).to.be.an('object').that.has.keys('fileConfig', 'customTransports');
+		expect(logger.settings.fileConfig).to.be.an('object').that.has.keys('logsPath', 'baseFileName', 'logFilePath');
+
+		expect(pathExists(logger.settings.fileConfig.logsPath)).to.be.equal(true);
+		expect(fileExists(logger.settings.fileConfig.logFilePath)).to.be.equal(true);
+	});
+
+	it('should create a logFile with custom name', () => {
+		const logger = new TneLogger(customFileNameConfig);
 
 		expect(logger).to.be.an('object');
 
