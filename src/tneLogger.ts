@@ -5,12 +5,19 @@ import { ISettings } from './interfaces';
 import { Settings } from './entity/settings';
 
 export class TneLogger {
+	public error: Function;
+	public warn: Function;
+	public info: Function;
 	constructor(args: ISettings = null) {
 		this._settings = new Settings(args);
 		this._logger = createLogger({
 			transports: this.transports,
 			levels: config.npm.levels,
 		});
+
+		this.error = this._error.bind(this);
+		this.warn = this._warn.bind(this);
+		this.info = this._info.bind(this);
 	}
 
 	public get logger() {
@@ -59,17 +66,16 @@ export class TneLogger {
 	}
 	private _settings: Settings;
 	private _logger: Logger;
-	private readonly logExpression = level => arg => (arg !== Object(arg)) ? this.logger[level](arg) : this.logger[level](JSON.stringify(arg));
 
-	public error(...args: any[]) {
-		args.forEach(this.logExpression('error'));
+	private _error(...args: any[]) {
+		args.forEach((arg) => (arg !== Object(arg) ? this._logger.error(arg) : this._logger.error(JSON.stringify(arg))));
 	}
 
-	public warn(...args: any[]) {
-		args.forEach(this.logExpression('warn'));
+	private _warn(...args: any[]) {
+		args.forEach((arg) => (arg !== Object(arg) ? this._logger.warn(arg) : this._logger.warn(JSON.stringify(arg))));
 	}
 
-	public info(...args: any[]) {
-		args.forEach(this.logExpression('info'));
+	private _info(...args: any[]) {
+		args.forEach((arg) => (arg !== Object(arg) ? this._logger.info(arg) : this._logger.info(JSON.stringify(arg))));
 	}
 }

@@ -92,6 +92,25 @@ describe('@tne/logger  basic test', () => {
 		expect(logger.settings.fileConfig).to.be.equal(null);
 		expect(logger.settings.customTransports).to.be.eql(customTransport.customTransports);
 	});
+
+	it('should log even if log methods are destructed', (done) => {
+		const { error, warn, info } = new TneLogger;
+
+		expect(error).to.be.a('function').that.not.throws();
+		expect(warn).to.be.a('function').that.not.throws();
+		expect(info).to.be.a('function').that.not.throws();
+
+		try {
+			info('hello!');
+			warn(false);
+			error(null);
+			info([0, 1, 2, 3, 4, 5]);
+			warn(new RegExp('string'));
+			error(new Date);
+
+			done();
+		} catch (E) {
+			done(E);
+		}
+	});
 });
-
-
