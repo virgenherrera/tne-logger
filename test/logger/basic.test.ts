@@ -1,116 +1,117 @@
 import { expect, should } from 'chai';
-import { TneLogger } from '../../src/tneLogger';
+import { TneLogger } from '../../src/';
+import { primitiveValues, complexValues } from '../fixtures/values';
 import { customTransport } from '../fixtures/customTransport';
+import { loggerKeys, settingsKeys, loggerMethods } from '../fixtures/loggerProps';
 
 should();
 describe('@tne/logger  basic test', () => {
-	it('should create a functional simple console logger', () => {
+	it('should create a console logger', () => {
+		const logger = new TneLogger;
+
+		expect(logger).to.be.an('object')
+			.that.has.keys(loggerKeys);
+
+		expect(logger).to.have.property('logsPath');
+
+		expect(logger.settings).to.be.an('object')
+			.that.has.keys(settingsKeys);
+
+		expect(logger.settings.level).to.be.a('string');
+		expect(logger.settings.fileCfg).to.be.equal(null);
+		expect(logger.settings.transports).to.be.an('array');
+	});
+
+	it('should log primitive values', () => {
 		const logger = new TneLogger;
 
 		expect(logger).to.be.an('object');
-		expect(logger).to.have.property('settings');
-		expect(logger).to.have.property('logger');
-		expect(logger).to.have.property('error');
-		expect(logger).to.have.property('warn');
-		expect(logger).to.have.property('info');
-
-		expect(logger.settings).to.be.an('object').that.has.keys('fileConfig', 'customTransports');
-		expect(logger.settings.fileConfig).to.be.equal(null);
-		expect(logger.settings.customTransports).to.be.eql([]);
+		loggerMethods.forEach(method => {
+			primitiveValues.forEach(val => {
+				expect(() => logger[method](val)).to.not.throw();
+			});
+		});
 	});
 
-	it('should log primitive values', (done) => {
+	it('should log non-primitive values', () => {
 		const logger = new TneLogger;
 
 		expect(logger).to.be.an('object');
-		expect(logger).to.have.property('settings');
-		expect(logger).to.have.property('logger');
-		expect(logger).to.have.property('error');
-		expect(logger).to.have.property('warn');
-		expect(logger).to.have.property('info');
-
-		try {
-			logger.info(1);
-			logger.warn(true);
-			logger.error('true');
-
-			done();
-		} catch (E) {
-			done(E);
-		}
+		loggerMethods.forEach(method => {
+			complexValues.forEach(val => {
+				expect(() => logger[method](val)).to.not.throw();
+			});
+		});
 	});
 
-	it('should log non-primitive values', (done) => {
-		const logger = new TneLogger;
+	it('should log when log methods are destructed', () => {
+		const {
+			debug,
+			error,
+			info,
+			silly,
+			verbose,
+			warn,
+		} = new TneLogger;
 
-		expect(logger).to.be.an('object');
-		expect(logger).to.have.property('settings');
-		expect(logger).to.have.property('logger');
-		expect(logger).to.have.property('error');
-		expect(logger).to.have.property('warn');
-		expect(logger).to.have.property('info');
+		expect(debug).to.be.a('function');
+		expect(error).to.be.a('function');
+		expect(info).to.be.a('function');
+		expect(silly).to.be.a('function');
+		expect(verbose).to.be.a('function');
+		expect(warn).to.be.a('function');
 
-		try {
-			logger.info([0, 1, 2, 3, 4, 5]);
-			logger.warn(new RegExp('string'));
-			logger.error(new Date);
-			logger.info(Array(6));
-
-			done();
-		} catch (E) {
-			done(E);
-		}
+		[...primitiveValues, ...complexValues].forEach(val => {
+			expect(() => debug(val)).to.not.throw();
+			expect(() => error(val)).to.not.throw();
+			expect(() => info(val)).to.not.throw();
+			expect(() => silly(val)).to.not.throw();
+			expect(() => verbose(val)).to.not.throw();
+			expect(() => warn(val)).to.not.throw();
+		});
 	});
 
-	it('should create a logger with a custom Transport', () => {
+	it('should create a logger an append a custom Transport', () => {
 		const logger = new TneLogger(customTransport);
 
-		expect(logger).to.be.an('object');
-		expect(logger).to.have.property('settings');
-		expect(logger).to.have.property('logger');
-		expect(logger).to.have.property('error');
-		expect(logger).to.have.property('warn');
-		expect(logger).to.have.property('info');
+		expect(logger).to.be.an('object')
+			.that.has.keys(loggerKeys);
 
-		expect(logger.settings).to.be.an('object').that.has.keys('fileConfig', 'customTransports');
-		expect(logger.settings.fileConfig).to.be.equal(null);
-		expect(logger.settings.customTransports).to.be.eql(customTransport.customTransports);
+		expect(logger).to.have.property('logsPath');
+
+		expect(logger.settings).to.be.an('object')
+			.that.has.keys(settingsKeys);
+
+		expect(logger.settings.level).to.be.a('string');
+		expect(logger.settings.fileCfg).to.be.equal(null);
+		expect(logger.settings.transports).to.be.an('array');
+
+		loggerMethods.forEach(method => {
+			[...primitiveValues, ...complexValues].forEach(val => {
+				expect(() => logger[method](val)).to.not.throw();
+			});
+		});
 	});
 
-	it('should create a logger with a custom Transport and not implement invalid transports', () => {
-		customTransport.customTransports.push(null, undefined, null, undefined, null, undefined, null, undefined, <any>19, <any>'some invalid transport value', <any>new Date);
-		const logger = new TneLogger(customTransport);
+	it('should create a functional console logger with custom logLevel', () => {
+		const logger = new TneLogger({ level: 'error' });
 
-		expect(logger).to.be.an('object');
-		expect(logger).to.have.property('settings');
-		expect(logger).to.have.property('logger');
-		expect(logger).to.have.property('error');
-		expect(logger).to.have.property('warn');
-		expect(logger).to.have.property('info');
+		expect(logger).to.be.an('object')
+			.that.has.keys(loggerKeys);
 
-		expect(logger.settings).to.be.an('object').that.has.keys('fileConfig', 'customTransports');
-		expect(logger.settings.fileConfig).to.be.equal(null);
-		expect(logger.settings.customTransports).to.be.eql(customTransport.customTransports);
-	});
+		expect(logger).to.have.property('logsPath');
 
-	it('should log even if log methods are destructed', (done) => {
-		const { error, warn, info } = new TneLogger;
+		expect(logger.settings).to.be.an('object')
+			.that.has.keys(settingsKeys);
 
-		expect(error).to.be.a('function').that.not.throws();
-		expect(warn).to.be.a('function').that.not.throws();
-		expect(info).to.be.a('function').that.not.throws();
+		expect(logger.settings.level).to.be.a('string');
+		expect(logger.settings.fileCfg).to.be.equal(null);
+		expect(logger.settings.transports).to.be.an('array');
 
-		try {
-			info('hello!');
-			warn(false);
-			error(null);
-			info([0, 1, 2, 3, 4, 5]);
-			warn(new RegExp('string'));
-			error(new Date);
-
-			done();
-		} catch (E) {
-			done(E);
-		}
+		loggerMethods.forEach(method => {
+			[...primitiveValues, ...complexValues].forEach(val => {
+				expect(() => logger[method](val)).to.not.throw();
+			});
+		});
 	});
 });

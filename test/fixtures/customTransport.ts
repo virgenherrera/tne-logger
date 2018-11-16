@@ -1,5 +1,4 @@
-import * as Transport from 'winston-transport';
-import { join } from 'path';
+import { Transport } from '../../src';
 
 class CustomTransport extends Transport {
 	constructor(opts = {}) {
@@ -15,7 +14,4 @@ class CustomTransport extends Transport {
 	}
 }
 
-export const logsPath = join(__dirname, './logs');
-export const fileConfig = { logsPath: logsPath };
-export const customTransport = { customTransports: [new CustomTransport] };
-export const customTransportWithFileConf = { fileConfig, customTransports: [new CustomTransport] };
+export const customTransport: any = { customTransports: [new CustomTransport] };
