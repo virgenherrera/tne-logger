@@ -1,11 +1,8 @@
 import * as Transport from 'winston-transport';
-
-export interface ILogFileConfig {
-	logsPath: string;
-	baseFileName?: string;
-}
+import { IFileSettings } from './IFileSettings';
 
 export interface ISettings {
-	fileConfig?: ILogFileConfig;
+	level?: string;
+	fileCfg?: IFileSettings;
 	customTransports?: Transport[];
 }

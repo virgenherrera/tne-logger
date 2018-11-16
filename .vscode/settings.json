@@ -9,5 +9,11 @@
   "tslint.run": "onType",
   "editor.formatOnSave": true,
   "editor.renderWhitespace": "boundary",
-  "workbench.colorTheme": "Visual Studio Dark"
+  "workbench.colorTheme": "Visual Studio Dark",
+  "cSpell.words": [
+    "crit",
+    "emerg",
+    "printf",
+    "yyyymmdd"
+  ]
 }
