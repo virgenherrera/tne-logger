@@ -3,124 +3,110 @@ A basic logger for __Node.js__ applications, completely written with __typescrip
 
 <a name="main_menu"></a>
 ## Menu
-- [Installation](#installation)
-- [Constructor Args](#constructor_args)
-- [Constructor/simple](#constructor_simple)
-- [Constructor/file](#constructor_file)
-- [Constructor/transports](#constructor_transports)
+### [Installation](#installation)
+### [@tne/logger](#tne_logger)
+### [interfaces](#app_interfaces)
+- [ISettings](#i_settings)
+- [IFileSettings](#i_file_settings)
 
+
+---
 <a name="installation"></a>
+[Back to Menu](#main_menu)
 ## Installation
-`npm i -S @tne/logger`
+You can install through the node package managers:
 
-<a name="constructor_args"></a>
-## Constructor Arguments
-|Param|Type|Required?|Description|
-|-|-|-|-|
-|fileConfig|ILogFileConfig|false|an ILogFileConfig config object.|
-|customTransports|Transport[]|false|A custom [`winston-transport`](https://github.com/winstonjs/winston-transport) Array.|
+### NPM
+```
+$ npm i -S @tne/logger
+```
 
-### Type ILogFileConfig
-|Param|Type|Required?|Description|
-|-|-|-|-|
-|logsPath|string|true|The path (existing or to be created) where the log file will be created/updated.|
-|baseFileName|string|false|The name of the log file itself.|
+### Yarn
+```
+$ yarn add @tne/logger
+```
 
+---
+<a name="tne_logger"></a>
 [Back to Menu](#main_menu)
+## @tne/logger
+`@tne/logger` is the main library which is responsible for making 'winston' coverage and standardizing the use for @tne.
+[@tne/logger](#tne_logger)
 
-<a name="constructor_simple"></a>
-## @tne/logger basic implementation
-Implement a basic console logger with `@tne/logger` Is as simple as requiring the library and creating an instance.
+### Example basic usage
+just create an instance without providing arguments
 ```
 import { TneLogger } from '@tne/logger';
 
-const logger = new TneLogger;
-```
-
-This gives you the methods: __"info, warn__ and __error"__ through which you can visualize your logs in the console.
-
-### Example Config
-
-```
-import { TneLogger } from '@tne/logger';
-
+// create a simple console logger
 const logger = new TneLogger;
 
-logger.info('info message 1537574380254');
-logger.warn('warn message 1537574380254');
-logger.error('error message 1537574380254');
+logger.info('hello!')	// outputs-> [timestamp] info: hello!
+logger.info('message 1537574380254');	// outputs -> [timestamp] info: message 1537574380254
+logger.warn('message 1537574380254');	// outputs -> [timestamp] warn: message 1537574380254
+logger.error('message 1537574380254');	// outputs -> [timestamp] error: message 1537574380254
 ```
 
-The above code will have an output to console as follows:
-
+### Example usage with file logger
+provide a config object that implements the [ISettings](#i_settings) interface
 ```
-info:   info message 1537574380254
-warn:   warn message 1537574380254
-error:  error message 1537574380254
-```
-
-[Back to Menu](#main_menu)
-
-
-<a name="constructor_file"></a>
-## @tne/logger file Implementation
-In order to create a implementation of `@tne/logger` with console and file outputs, you must to send the logs path in the param `fileConfig` during the instantiation of `@tne/logger`.
-
-### Example Config
-```
-import { join } from 'path';
 import { TneLogger } from '@tne/logger';
 
-const tneConfig = { fileConfig: { logsPath: join(__dirname, './logs') } };
-const logger = new TneLogger(tneConfig);
+// ISettings
+const config = {
+	fileCfg: {
+		logsPath: process.pwd() + '/logs',
+		logFile: 'someFileName',
+	}
+};
 
-logger.info('info message 1537574380254');
-logger.warn('warn message 1537574380254');
-logger.error('error message 1537574380254');
-```
 
-### Example Console Output
-The above code will have an output to console as follows:
+// create a console logger with file persistence
+const logger = new TneLogger(config);
 
+logger.info('hello!')	// outputs-> [timestamp] info: hello!
+logger.info('message 1537574380254');	// outputs -> [timestamp] info: message 1537574380254
+logger.warn('message 1537574380254');	// outputs -> [timestamp] warn: message 1537574380254
+logger.error('message 1537574380254');	// outputs -> [timestamp] error: message 1537574380254
 ```
-info:   info message 1537574380254
-warn:   warn message 1537574380254
-error:  error message 1537574380254
-```
+The above code will also dump logs to a several logs files placed on path specified by `logsPath` argument.
 
-### Example file Output "`join(__dirname, './logs')`"
-```
-2018-09-24T15:28:28.960Z info: info message 1537574380254
-2018-09-24T15:28:28.961Z warn: warn message 1537574380254
-2018-09-24T15:28:28.961Z error: error message 1537574380254
-```
-
+---
+<a name="app_interfaces"></a>
 [Back to Menu](#main_menu)
+### Interfaces
+The interfaces that this library provides and that are described here provide help to the developer that will consume this library to build incredible web applications.
 
-<a name="constructor_transports"></a>
-## @tne/logger custom Transport(s) implementation
-If what you want is to provide your own Winston Transporter, you simply have to send it or send as many as you need, within an array in the parameter: `customTransports`.
+#### Constraints
+The interfaces mentioned in this section will be importable only if you are developing your web application with `typescript`.
 
-### Example Config
-```
-import { yourCustomWinstonTransport } from './localProject/customTransport';
-import { TneLogger } from '@tne/logger';
+---
+<a name="i_settings"></a>
+[Back to Menu](#main_menu)
+### ISettings
+Used as a constructor argument for `TneLogger` class.
 
-const tneConfig = { customTransports: [yourCustomWinstonTransport] };
-const logger = new TneLogger(tneConfig);
+#### Parameters
+|Param|Type|Required?|Description|
+|-|-|-|-|
+| level | string | false | [winston logging level](https://github.com/winstonjs/winston#logging-levels) |
+| fileCfg | IFileSettings| false | [IFileSettings](#i_file_settings) object |
+| customTransports | Transport[] | false | A custom [`winston-transport`](https://github.com/winstonjs/winston-transport) Array.|
 
-logger.info('info message 1537574380254');
-logger.warn('warn message 1537574380254');
-logger.error('error message 1537574380254');
-```
+---
+<a name="i_settings"></a>
+[IFileSettings](#i_file_settings)
+[Back to Menu](#main_menu)
+### IFileSettings
+Used as a nested config on constructor argument for `TneLogger` class.
 
-### Example Console Output
-The above code will have an output to console as follows and also will use your custom transports as well:
+When you provide this config object a log file will be created per day.
 
-```
-info:   info message 1537574380254
-warn:   warn message 1537574380254
-error:  error message 1537574380254
-```
+#### Parameters
+|Param|Type|Required?|Description|
+|-|-|-|-|
+| logsPath | string | true | valid path where `TneLogger` will create the log files. |
+| logFile | string | false | filename for the further log files `default: 'log.log'` |
+| datePattern | string | false | data pattern for the further log files `default: 'YYYMMDD'` |
 
 [Back to Menu](#main_menu)

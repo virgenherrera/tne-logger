@@ -43,9 +43,7 @@ describe('@tne/logger file I/O test', () => {
 		expect(logsPath).to.be.a('string')
 			.and.be.equal(configBasic.fileCfg.logsPath);
 		expect(logFile).to.be.a('string');
-		// expect(logFile).to.be.a('string').and.be.equal(configBasic.fileCfg.logFile);
 		expect(datePattern).to.be.a('string');
-		// expect(datePattern).to.be.a('string').and.be.equal(configBasic.fileCfg.datePattern);
 
 		expect(pathExists(logsPath)).to.be.equal(true);
 
