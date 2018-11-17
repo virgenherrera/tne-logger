@@ -1,10 +1,16 @@
 import { join } from 'path';
 
-export const logsPath = join(__dirname, './logs');
+export const logsPath = join(__dirname, './test_logs');
+export const configBasic = {
+	fileCfg: {
+		logsPath,
+	}
+};
 
-export const fileConfig = { fileConfig: { logsPath: logsPath } };
-
-export const customFileNameConfig = {
-	fileConfig: { logsPath: logsPath },
-	baseFileName: `customFileName${new Date().getTime()}`,
+export const configCustom = {
+	fileCfg: {
+		logsPath,
+		logFile: 'someFileName',
+		datePattern: 'DDMMYYY',
+	}
 };

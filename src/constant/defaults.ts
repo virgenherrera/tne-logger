@@ -1,1 +1,16 @@
-export const DEFAULT_FILENAME = 'log.log';
+export const FILE_NAME = 'log.log';
+export const FILE_DATE_PATTERN = 'YYYYMMDD';
+
+// as specified exactly in RFC5424
+// https://tools.ietf.org/html/rfc5424
+// https://github.com/winstonjs/winston#logging-levels
+export enum LogLevel {
+	emerg = 'emerg',
+	alert = 'alert',
+	crit = 'crit',
+	error = 'error',
+	warning = 'warning',
+	notice = 'notice',
+	info = 'info',
+	debug = 'debug',
+}

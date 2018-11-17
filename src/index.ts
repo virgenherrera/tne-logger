@@ -1,5 +1,12 @@
 import * as Transport from 'winston-transport';
-import { TneLogger } from './tneLogger';
-import { ILogFileConfig, ISettings } from './interfaces';
+import { ISettings, IFileSettings } from './interface';
 
-export { TneLogger, TneLogger as Logger, Transport, ILogFileConfig, ISettings };
+// logger
+export { TneLogger } from './class/tneLogger';
+
+// interfaces
+export {
+	ISettings,
+	IFileSettings,
+	Transport,
+};

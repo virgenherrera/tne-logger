@@ -1,12 +1,19 @@
-import { ISettings } from '../interfaces';
-import { LogFileConfig } from './logFileConfig';
+import * as Transport from 'winston-transport';
+import { ISettings, IFileSettings } from '../interface';
+import { parseLogLevel } from '../lib/parseLogLevel';
+import { parseFileConfig } from '../lib/parseFileConfig';
+import { parseTransports } from '../lib/parseTransports';
 
-export class Settings implements ISettings {
-	fileConfig: LogFileConfig = null;
-	customTransports = [];
+export class Settings {
+	public level: string;
+	public fileCfg: IFileSettings;
+	public transports: Transport[];
 
-	constructor(params: ISettings = null) {
-		this.fileConfig = (params && params.fileConfig) ? new LogFileConfig(params.fileConfig) : null;
-		this.customTransports = (params && params.customTransports) ? params.customTransports : [];
+	constructor(args: ISettings) {
+		this.level = parseLogLevel(args);
+		this.fileCfg = parseFileConfig(args);
+		this.transports = parseTransports(args, this.fileCfg);
+
+		Object.freeze(this);
 	}
 }
