@@ -1,5 +1,4 @@
 import { createLogger, format, Logger } from 'winston';
-import { logFormat } from '../lib/logFormat';
 import { ISettings } from '../interface';
 import { Settings } from '../entity/settings';
 
@@ -13,14 +12,14 @@ export class TneLogger {
 	public verbose = (log: any) => this._logger.verbose(log);
 	public warn = (log: any) => this._logger.warn(log);
 
-	constructor(args: ISettings = null) {
+	constructor(args: ISettings = {}) {
 		this.settings = new Settings(args);
 
 		this._logger = createLogger({
 			level: this.settings.level,
 			format: format.combine(
 				format.timestamp(),
-				logFormat,
+				this.settings.format,
 			),
 			transports: this.settings.transports,
 		});

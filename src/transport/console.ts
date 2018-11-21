@@ -1,7 +1,7 @@
 import { format, transports } from 'winston';
-import { logFormat } from '../lib/logFormat';
+import { Format } from 'logform';
 
-export function consoleTransport() {
+export function consoleTransport(logFormat: Format) {
 	return new transports.Console({
 		format: format.combine(
 			format.colorize(),
