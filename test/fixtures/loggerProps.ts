@@ -12,6 +12,7 @@ export const loggerKeys = [
 	...loggerMethods,
 ];
 export const settingsKeys = [
+	'format',
 	'level',
 	'fileCfg',
 	'transports',

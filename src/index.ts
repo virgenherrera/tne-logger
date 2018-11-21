@@ -1,6 +1,9 @@
 import * as Transport from 'winston-transport';
 import { ISettings, IFileSettings } from './interface';
 
+// Foundation libs
+export { Transport };
+
 // logger
 export { TneLogger } from './class/tneLogger';
 
@@ -8,5 +11,4 @@ export { TneLogger } from './class/tneLogger';
 export {
 	ISettings,
 	IFileSettings,
-	Transport,
 };
