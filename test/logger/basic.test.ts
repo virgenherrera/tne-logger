@@ -3,6 +3,7 @@ import { TneLogger } from '../../src/';
 import { primitiveValues, complexValues } from '../fixtures/values';
 import { customTransport } from '../fixtures/customTransport';
 import { loggerKeys, settingsKeys, loggerMethods } from '../fixtures/loggerProps';
+import { customFormat } from '../fixtures/customLogFormat';
 
 should();
 describe('@tne/logger  basic test', () => {
@@ -95,6 +96,28 @@ describe('@tne/logger  basic test', () => {
 
 	it('should create a functional console logger with custom logLevel', () => {
 		const logger = new TneLogger({ level: 'error' });
+
+		expect(logger).to.be.an('object')
+			.that.has.keys(loggerKeys);
+
+		expect(logger).to.have.property('logsPath');
+
+		expect(logger.settings).to.be.an('object')
+			.that.has.keys(settingsKeys);
+
+		expect(logger.settings.level).to.be.a('string');
+		expect(logger.settings.fileCfg).to.be.equal(null);
+		expect(logger.settings.transports).to.be.an('array');
+
+		loggerMethods.forEach(method => {
+			[...primitiveValues, ...complexValues].forEach(val => {
+				expect(() => logger[method](val)).to.not.throw();
+			});
+		});
+	});
+
+	it('should create a logger an append a custom logFormat', () => {
+		const logger = new TneLogger(customFormat);
 
 		expect(logger).to.be.an('object')
 			.that.has.keys(loggerKeys);
