@@ -1,21 +1,17 @@
 import { expect, should } from 'chai';
 import * as moment from 'moment';
-import * as rimraf from 'rimraf';
 import { fileExists, pathExists } from '@tne/common';
 import { TneLogger } from '../../src/';
 import { primitiveValues, complexValues } from '../fixtures/values';
 import { logsPath as testLogsPath, configBasic, configCustom } from '../fixtures/fileConfig';
 import { join } from 'path';
 import { loggerKeys, settingsKeys, loggerMethods } from '../fixtures/loggerProps';
+import { dropLogs } from '../helpers';
 
 should();
 describe('@tne/logger file I/O test', () => {
-	before((done) => {
-		rimraf(testLogsPath, () => done());
-	});
-
-	after((done) => {
-		rimraf(testLogsPath, () => done());
+	after(() => {
+		dropLogs(testLogsPath);
 	});
 
 	it('should create a logger with file I/O', () => {
@@ -75,6 +71,7 @@ describe('@tne/logger file I/O test', () => {
 		expect(logger.settings.fileCfg).to.be.an('object')
 			.that.has.keys('logsPath', 'logFile', 'datePattern');
 
+		console.dir(logger.settings.fileCfg);
 		const {
 			logsPath,
 			logFile,
@@ -84,7 +81,7 @@ describe('@tne/logger file I/O test', () => {
 		expect(logsPath).to.be.a('string')
 			.and.be.equal(configCustom.fileCfg.logsPath);
 		expect(logFile).to.be.a('string');
-		expect(logFile).to.be.a('string').and.be.equal(configCustom.fileCfg.logFile);
+		expect(logFile).to.be.a('string').and.contain(configCustom.fileCfg.logFile);
 		expect(datePattern).to.be.a('string');
 		expect(datePattern).to.be.a('string').and.be.equal(configCustom.fileCfg.datePattern);
 
