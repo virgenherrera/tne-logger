@@ -5,6 +5,7 @@ import { Format } from 'logform';
 import { LogLevel } from '../constant/defaults';
 import { consoleTransport } from '../transport/console';
 import { fileTransport } from '../transport/file';
+import { parse } from 'path';
 
 export class Setup {
 	public static parseFormat(args: ISettings = {}): Format {
@@ -28,9 +29,10 @@ export class Setup {
 
 		const {
 			logsPath,
-			logFile = FILE_NAME,
 			datePattern = FILE_DATE_PATTERN,
 		} = args.fileCfg;
+		const { name, ext } = parse(args.fileCfg.logFile || FILE_NAME);
+		const logFile = `${name}${ext ? ext : '.log'}`;
 
 		return { logsPath, logFile, datePattern };
 	}
