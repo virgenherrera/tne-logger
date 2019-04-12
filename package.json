@@ -36,7 +36,7 @@
   "scripts": {
     "test": "nyc mocha",
     "prepublish": "npm run build",
-    "build": "npm run cleanup && npm run tsc && npm run test",
+    "build": "npm run cleanup && npm audit && npm run tslint && npm run tsc && npm run test ",
     "cleanup": "rimraf dist .nyc_output coverage",
     "tslint": "./node_modules/.bin/tslint -c ./tslint.json -p ./tsconfig.json",
     "tsc": "./node_modules/.bin/tsc",

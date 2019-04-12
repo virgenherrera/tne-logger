@@ -12,7 +12,7 @@ export class TneLogger {
 	public verbose = (log: any) => this._logger.verbose(log);
 	public warn = (log: any) => this._logger.warn(log);
 
-	constructor(args: ISettings = {}) {
+	constructor(args: ISettings) {
 		this.settings = new Settings(args);
 
 		this._logger = createLogger({
