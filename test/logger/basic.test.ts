@@ -8,7 +8,7 @@ import { customFormat } from '../fixtures/customLogFormat';
 should();
 describe('@tne/logger  basic test', () => {
 	it('should create a console logger', () => {
-		const logger = new TneLogger;
+		const logger = new TneLogger({});
 
 		expect(logger).to.be.an('object')
 			.that.has.keys(loggerKeys);
@@ -24,7 +24,7 @@ describe('@tne/logger  basic test', () => {
 	});
 
 	it('should log primitive values', () => {
-		const logger = new TneLogger;
+		const logger = new TneLogger({});
 
 		expect(logger).to.be.an('object');
 		loggerMethods.forEach(method => {
@@ -35,7 +35,7 @@ describe('@tne/logger  basic test', () => {
 	});
 
 	it('should log non-primitive values', () => {
-		const logger = new TneLogger;
+		const logger = new TneLogger({});
 
 		expect(logger).to.be.an('object');
 		loggerMethods.forEach(method => {
@@ -53,7 +53,7 @@ describe('@tne/logger  basic test', () => {
 			silly,
 			verbose,
 			warn,
-		} = new TneLogger;
+		} = new TneLogger({});
 
 		expect(debug).to.be.a('function');
 		expect(error).to.be.a('function');
