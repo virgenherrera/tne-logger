@@ -58,10 +58,10 @@
     "chai": "^4.2.0",
     "mocha": "^5.2.0",
     "moment": "^2.24.0",
-    "nyc": "^13.3.0",
+    "nyc": "^14.0.0",
     "source-map-support": "^0.5.12",
     "ts-node": "^7.0.0",
-    "tslint": "^5.15.0",
+    "tslint": "^5.16.0",
     "typescript": "^3.4.3"
   },
   "nyc": {

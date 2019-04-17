@@ -2,9 +2,8 @@ import * as Transport from 'winston-transport';
 import { IFileSettings } from './IFileSettings';
 import { Format } from 'logform';
 
-export interface ISettings {
+export interface ILoggerOpts {
 	format?: Format;
-	level?: string;
 	fileCfg?: IFileSettings;
 	customTransports?: Transport[];
 }

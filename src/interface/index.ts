@@ -1,2 +1,2 @@
-export { ISettings } from './ISettings';
+export { ILoggerOpts } from './ISettings';
 export { IFileSettings } from './IFileSettings';

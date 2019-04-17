@@ -1,26 +1,19 @@
 import * as Transport from 'winston-transport';
-import { IFileSettings, ISettings } from '..';
-import { FILE_NAME, FILE_DATE_PATTERN, LOG_FORMAT } from '../constant/defaults';
 import { Format } from 'logform';
-import { LogLevel } from '../constant/defaults';
+import { IFileSettings } from '../interface';
+import { FILE_NAME, FILE_DATE_PATTERN, LOG_FORMAT } from '../constant/defaults';
 import { consoleTransport } from '../transport/console';
 import { fileTransport } from '../transport/file';
 import { parse } from 'path';
+import { ILoggerOpts } from '../interface';
 
-export function parseFormat(args: ISettings): Format {
+export function parseFormat(args: ILoggerOpts): Format {
 	const { format = LOG_FORMAT } = args;
 
 	return format;
 }
 
-export function parseLogLevel({ level = '' }: ISettings): string {
-
-	return (level in LogLevel)
-		? LogLevel[level]
-		: LogLevel.debug;
-}
-
-export function parseFileConfig(args: ISettings): IFileSettings {
+export function parseFileConfig(args: ILoggerOpts): IFileSettings {
 	if (!args.fileCfg || !args.fileCfg.logsPath) {
 		return null;
 	}
@@ -36,7 +29,7 @@ export function parseFileConfig(args: ISettings): IFileSettings {
 }
 
 
-export function parseTransports(args: ISettings, format: Format, fileCfg: IFileSettings = null): Transport[] {
+export function parseTransports(args: ILoggerOpts, format: Format, fileCfg: IFileSettings = null): Transport[] {
 	const customTransports = (args && args.customTransports && Array.isArray(args.customTransports)) ? args.customTransports : [];
 	const transports: Transport[] = [consoleTransport(format)];
 
