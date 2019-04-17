@@ -1,10 +1,12 @@
 export const loggerMethods = [
-	'debug',
+	'emerg',
+	'alert',
+	'crit',
 	'error',
+	'warning',
+	'notice',
 	'info',
-	'silly',
-	'verbose',
-	'warn',
+	'debug',
 ];
 export const loggerKeys = [
 	'_logger',
@@ -13,7 +15,7 @@ export const loggerKeys = [
 ];
 export const settingsKeys = [
 	'format',
-	'level',
+	'levels',
 	'fileCfg',
 	'transports',
 ];

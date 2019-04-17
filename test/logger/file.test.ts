@@ -25,7 +25,7 @@ describe('@tne/logger file I/O test', () => {
 		expect(logger.settings).to.be.an('object')
 			.that.has.keys(settingsKeys);
 
-		expect(logger.settings.level).to.be.a('string');
+		expect(logger.settings.levels).to.be.an('object');
 		expect(logger.settings.transports).to.be.an('array');
 		expect(logger.settings.fileCfg).to.be.an('object')
 			.that.has.keys('logsPath', 'logFile', 'datePattern');
@@ -66,7 +66,7 @@ describe('@tne/logger file I/O test', () => {
 		expect(logger.settings).to.be.an('object')
 			.that.has.keys(settingsKeys);
 
-		expect(logger.settings.level).to.be.a('string');
+		expect(logger.settings.levels).to.be.an('object');
 		expect(logger.settings.transports).to.be.an('array');
 		expect(logger.settings.fileCfg).to.be.an('object')
 			.that.has.keys('logsPath', 'logFile', 'datePattern');

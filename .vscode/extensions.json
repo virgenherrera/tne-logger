@@ -5,6 +5,7 @@
     "EditorConfig.editorconfig",
     "eg2.tslint",
     "msjsdiag.debugger-for-chrome",
-    "streetsidesoftware.code-spell-checker"
+    "streetsidesoftware.code-spell-checker",
+    "vscode-icons-team.vscode-icons"
   ]
 }
