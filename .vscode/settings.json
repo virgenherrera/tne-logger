@@ -15,6 +15,7 @@
     "emerg",
     "logform",
     "printf",
+    "syslog",
     "yyyymmdd"
   ]
 }

@@ -1,19 +1,21 @@
 import * as Transport from 'winston-transport';
-import { ISettings, IFileSettings } from '../interface';
+import { config } from 'winston';
+import { ILoggerOpts, IFileSettings } from '../interface';
 import { Format } from 'logform';
-import { Setup } from '../lib/setup';
+import { parseFormat, parseFileConfig, parseTransports } from '../lib/setup';
 
 export class Settings {
 	public format: Format;
-	public level: string;
+	public levels = config.syslog.levels;
 	public fileCfg: IFileSettings;
 	public transports: Transport[];
 
-	constructor(args: ISettings = {}) {
-		this.format = Setup.parseFormat(args);
-		this.level = Setup.parseLogLevel(args);
-		this.fileCfg = Setup.parseFileConfig(args);
-		this.transports = Setup.parseTransports(args, this.format, this.fileCfg);
+	constructor(args: ILoggerOpts) {
+		args = <ILoggerOpts>new Object(args);
+
+		this.format = parseFormat(args);
+		this.fileCfg = parseFileConfig(args);
+		this.transports = parseTransports(args, this.format, this.fileCfg);
 
 		Object.freeze(this);
 	}

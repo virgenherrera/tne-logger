@@ -18,7 +18,7 @@ describe('@tne/logger  basic test', () => {
 		expect(logger.settings).to.be.an('object')
 			.that.has.keys(settingsKeys);
 
-		expect(logger.settings.level).to.be.a('string');
+		expect(logger.settings.levels).to.be.an('object');
 		expect(logger.settings.fileCfg).to.be.equal(null);
 		expect(logger.settings.transports).to.be.an('array');
 	});
@@ -47,28 +47,34 @@ describe('@tne/logger  basic test', () => {
 
 	it('should log when log methods are destructed', () => {
 		const {
-			debug,
+			emerg,
+			alert,
+			crit,
 			error,
+			warning,
+			notice,
 			info,
-			silly,
-			verbose,
-			warn,
+			debug,
 		} = new TneLogger;
 
-		expect(debug).to.be.a('function');
+		expect(emerg).to.be.a('function');
+		expect(alert).to.be.a('function');
+		expect(crit).to.be.a('function');
 		expect(error).to.be.a('function');
+		expect(warning).to.be.a('function');
+		expect(notice).to.be.a('function');
 		expect(info).to.be.a('function');
-		expect(silly).to.be.a('function');
-		expect(verbose).to.be.a('function');
-		expect(warn).to.be.a('function');
+		expect(debug).to.be.a('function');
 
 		[...primitiveValues, ...complexValues].forEach(val => {
-			expect(() => debug(val)).to.not.throw();
+			expect(() => emerg(val)).to.not.throw();
+			expect(() => alert(val)).to.not.throw();
+			expect(() => crit(val)).to.not.throw();
 			expect(() => error(val)).to.not.throw();
+			expect(() => warning(val)).to.not.throw();
+			expect(() => notice(val)).to.not.throw();
 			expect(() => info(val)).to.not.throw();
-			expect(() => silly(val)).to.not.throw();
-			expect(() => verbose(val)).to.not.throw();
-			expect(() => warn(val)).to.not.throw();
+			expect(() => debug(val)).to.not.throw();
 		});
 	});
 
@@ -83,29 +89,7 @@ describe('@tne/logger  basic test', () => {
 		expect(logger.settings).to.be.an('object')
 			.that.has.keys(settingsKeys);
 
-		expect(logger.settings.level).to.be.a('string');
-		expect(logger.settings.fileCfg).to.be.equal(null);
-		expect(logger.settings.transports).to.be.an('array');
-
-		loggerMethods.forEach(method => {
-			[...primitiveValues, ...complexValues].forEach(val => {
-				expect(() => logger[method](val)).to.not.throw();
-			});
-		});
-	});
-
-	it('should create a functional console logger with custom logLevel', () => {
-		const logger = new TneLogger({ level: 'error' });
-
-		expect(logger).to.be.an('object')
-			.that.has.keys(loggerKeys);
-
-		expect(logger).to.have.property('logsPath');
-
-		expect(logger.settings).to.be.an('object')
-			.that.has.keys(settingsKeys);
-
-		expect(logger.settings.level).to.be.a('string');
+		expect(logger.settings.levels).to.be.an('object');
 		expect(logger.settings.fileCfg).to.be.equal(null);
 		expect(logger.settings.transports).to.be.an('array');
 
@@ -127,7 +111,7 @@ describe('@tne/logger  basic test', () => {
 		expect(logger.settings).to.be.an('object')
 			.that.has.keys(settingsKeys);
 
-		expect(logger.settings.level).to.be.a('string');
+		expect(logger.settings.levels).to.be.an('object');
 		expect(logger.settings.fileCfg).to.be.equal(null);
 		expect(logger.settings.transports).to.be.an('array');
 
